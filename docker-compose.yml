@@ -35,29 +35,6 @@ services:
       - KAFKASTORE_INIT_TIMEOUT_MS=3000
       - KAFKASTORE_TIMEOUT_MS=3000
 
-  # kafka_two:
-  #   image: confluentinc/cp-kafka:7.2.2.arm64
-  #   container_name: kafka_two
-  #   depends_on:
-  #     - zookeeper
-  #   links:
-  #     - "zookeeper:zookeeper"
-  #   ports:
-  #     - 29093:29093
-  #     - 9093:9093
-  #   environment:
-  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
-  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9093,PLAINTEXT_HOST://kafka:29093
-  #     - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-  #     - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-  #     - KAFKA_BROKER_ID=3
-  #     - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-  #     - ALLOW_PLAINTEXT_LISTENER=yes
-  #     - kafkastore.init.timeout.ms=20000
-  #     - kafkastore.timeout.ms=10000
-  #     - KAFKASTORE_INIT_TIMEOUT_MS=3000
-  #     - KAFKASTORE_TIMEOUT_MS=3000
-
   schema:
     image: confluentinc/cp-schema-registry:7.2.2.arm64
     container_name: schema

@@ -30,6 +30,33 @@ services:
       - KAFKA_BROKER_ID=2
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - kafkastore.init.timeout.ms=20000
+      - kafkastore.timeout.ms=10000
+      - KAFKASTORE_INIT_TIMEOUT_MS=3000
+      - KAFKASTORE_TIMEOUT_MS=3000
+
+  # kafka_two:
+  #   image: confluentinc/cp-kafka:7.2.2.arm64
+  #   container_name: kafka_two
+  #   depends_on:
+  #     - zookeeper
+  #   links:
+  #     - "zookeeper:zookeeper"
+  #   ports:
+  #     - 29093:29093
+  #     - 9093:9093
+  #   environment:
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
+  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9093,PLAINTEXT_HOST://kafka:29093
+  #     - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+  #     - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+  #     - KAFKA_BROKER_ID=3
+  #     - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+  #     - ALLOW_PLAINTEXT_LISTENER=yes
+  #     - kafkastore.init.timeout.ms=20000
+  #     - kafkastore.timeout.ms=10000
+  #     - KAFKASTORE_INIT_TIMEOUT_MS=3000
+  #     - KAFKASTORE_TIMEOUT_MS=3000
 
   schema:
     image: confluentinc/cp-schema-registry:7.2.2.arm64
@@ -47,6 +74,10 @@ services:
       - SCHEMA_REGISTRY_HOST_NAME=schema
       - SCHEMA_REGISTRY_LISTENERS=http://schema:8081
       - SCHEMA_REGISTRY_DEBUG=true
+      - kafkastore.init.timeout.ms=20000
+      - kafkastore.timeout.ms=10000
+      - KAFKASTORE_INIT_TIMEOUT_MS=3000
+      - KAFKASTORE_TIMEOUT_MS=3000
 
   kafka_rest:
     container_name: kafka_rest
@@ -62,11 +93,7 @@ services:
       - kafka
       - schema
     environment:
-      - KAFKA_REST_ZOOKEEPER_CONNECT=zookeeper:32181
+      - KAFKA_REST_HOST_NAME=kafka_rest
       - KAFKA_REST_LISTENERS=http://localhost:8082
-      - KAFKA_REST_SCHEMA_REGISTRY_URL=http://localhost:8081
+      - KAFKA_REST_SCHEMA_REGISTRY_URL=http://schema:8081
       - KAFKA_REST_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:29092
-
-# networks:
-#   kafka-full-network:
-#     driver: ""
